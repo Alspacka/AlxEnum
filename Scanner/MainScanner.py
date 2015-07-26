@@ -18,3 +18,5 @@ class MainScanner(object):
         Constructor
         '''
         
+    def execute(self):
+        pass

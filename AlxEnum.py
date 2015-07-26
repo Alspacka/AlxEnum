@@ -1,17 +1,12 @@
+#!/usr/bin/python
 '''
-Created on Jun 18, 2015
+Created on Dec 13, 2014
 
 @author: Alexander Van Daele
 '''
 
-from optparse import OptionParser
-import subprocess
-import multiprocessing
-from multiprocessing import Process, Queue
-import os
-import time 
+import Scanner.MainScanner
+from Common import CheckRequirements
 
-
-if __name__ == '__main__':
-    
-    pass
+CheckRequirements.CheckEnvironment(["nmap","hydra","dirb", "nikto","enum4linux","onesixtyone"])
+Scanner.MainScanner.MainScanner.execute()
