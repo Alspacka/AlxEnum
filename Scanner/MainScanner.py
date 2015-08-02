@@ -49,6 +49,6 @@ class MainScanner(BaseListener):
         '''
         Received some scanning results, pass to individual scanning modules
         '''
-        pass
+        print("Received an update from internal scanner")
     
     

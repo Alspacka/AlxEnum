@@ -7,8 +7,8 @@ from Scanner.BaseScanner import BaseScanner
 import subprocess
 from Common.AlxConfiguration import AlxConfiguration
 from libnmap.process import NmapProcess
+from libnmap.parser import NmapParser
 from time import sleep
-from pyparsing import ParseResults
 import threading
 from Queue import Queue
 
@@ -78,7 +78,7 @@ class NmapScan(BaseScanner):
                 pass
             else:
                 if(self.currentScan.is_successful()):
-                    print("RECEIVED NMAP RESULTS!")
+                    self.ParseResults(self.currentScan)
                     self.currentScan = None
                 self.createNewScan()
             pass
@@ -89,13 +89,19 @@ class NmapScan(BaseScanner):
             opt = self.scanQueue.get()
             ip = self.getIP()
             print("Starting Nmap scan against {0} with options {1}").format(ip,opt)
-            self.currentScan = NmapProcess(targets=ip, options=opt, event_callback=ParseResults, safe_mode=False)
+            self.currentScan = NmapProcess(targets=ip, options=opt, safe_mode=False)
             self.currentScan.run_background()
         else:
             self.Quit()
-
     
-    def ParseResults(self, results):
-        print("RECEIVED NMAP RESULTS!")
+    def ParseResults(self, nmapscan):
+        nmap_report = NmapParser.parse(nmapscan.stdout)
+        for h in nmap_report.hosts:
+            #assemble host
+            for s in h.services:
+                #add services to host
+                if(s.state == "open"):
+                    print("Found service {0} {1} {2}").format(s.service, s.protocol, s.state)
+                    self.UpdateListeners(h)
     
     

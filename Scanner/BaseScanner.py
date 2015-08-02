@@ -23,7 +23,7 @@ class BaseScanner(object):
         self.listeners.remove(listener)
     
     def UpdateListeners(self, scanResults):
-        for l in enumerate(self.listeners):
+        for l in self.listeners:
             l.UpdateListener(scanResults)
             
     def Execute(self):
