@@ -25,9 +25,30 @@ class AlxConfiguration(object):
         self.DeepBruteforceUSER = "/tmp/test"
         self.DeepBruteforcePASS = "/tmp/test"
         self.ResultDir = "/tmp/resulttest"
+        self.quickScan = "-sT -Pn -p1-500"
+        self.intermediateScan = "-sT -p15001-15003 -T 4"
+        self.fullScan = "sT -p30001-30001 -T 4"
+        self.udpScan = "-sU -T 5 --top-ports 200"
+        
+        #quickScan = "-sT -A -Pn -p1-15000"
+    #quickScan = "sT -O -Pn -oX"
+    #intermediateScan = "-sT -A -Pn -p15001-30000 -T 4"
+    #intermediateScan = "-sT -p15001-16000 -T 4"
+    #fullScan = "-sT -A -Pn -p30001-65535 -T 4"
+    #fullScan = "-sT -p30001-31000 -T 4"
+    #udpScan = "nmap -vv -Pn -A -sC -sU -T 4 --top-ports 200 -oX "
+    #udpScan = "-sU -T 4 --top-ports 200"
     
     def getInterface(self):
         return self.interface
+    def getQuickScanOpts(self):
+        return self.quickScan
+    def getIntermediateScanOpts(self):
+        return self.intermediateScan
+    def getFullScanOpts(self):
+        return self.fullScan
+    def getUdpScanOpts(self):
+        return self.udpScan
     def setInterface(self, interface):
         self.interface = interface
         self.Save()

@@ -29,7 +29,7 @@ def main():
     #CheckRequirements.CheckEnvironment(["nmap","hydra","dirb", "nikto","enum4linux","onesixtyone"])
     global Scanner
     #Setup scanner, read config etc
-    Scanner = MainScanner.MainScanner(["127.0.0.1"])
+    Scanner = MainScanner.MainScanner(["127.0.0.1", "192.168.1.1"])
     print("[+] Starting main scanner...")
     Scanner.Execute()
 
@@ -42,8 +42,11 @@ def cleanup(signal, frame):
     #cleanup and exit
     global Scanner
     print("Abort detected - cleaning up!")
-    Scanner.Quit()
-    sys.exit(1)
+    try:
+        Scanner.Quit()
+        sys.exit(1)
+    except:
+        sys.exit(1)
     
 signal.signal(signal.SIGINT, cleanup)
 signal.signal(signal.SIGHUP, readconfig)

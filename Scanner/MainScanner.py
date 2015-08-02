@@ -8,6 +8,7 @@ from ScanModules import *
 from Common import *
 import imp
 import os
+from Common import AlxConfiguration
 from Scanner.BaseListener import BaseListener
 from Scanner.NmapScan import NmapScan
 
@@ -24,9 +25,13 @@ class MainScanner(BaseListener):
         '''
         
         self.Scanners = []
+        Config = AlxConfiguration.AlxConfiguration()
         
         for ip in ips:
-            ns = NmapScan(ip)
+            directory = Config.getResultDir() + "/Alx_Result_" + ip + "/"
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            ns = NmapScan(ip, directory)
             ns.SubscribeObserver(self)
             self.Scanners.append(ns)
         
