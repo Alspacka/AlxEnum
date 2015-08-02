@@ -1,7 +1,7 @@
 '''
 Created on Jun 18, 2015
 
-@author: Alex
+@author: Alexander Van Daele
 '''
 
 if __name__ == '__main__':

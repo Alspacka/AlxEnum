@@ -1,22 +1,49 @@
 '''
 Created on Jun 18, 2015
 
-@author: Alex
+@author: Alexander Van Daele
 '''
 
 from ScanModules import *
 from Common import *
+import imp
+import os
+from Scanner.BaseListener import BaseListener
+from Scanner.NmapScan import NmapScan
 
-class MainScanner(object):
+PluginFolder = "../ScanModules"
+
+class MainScanner(BaseListener):
     '''
-    Main scanner class, performs an nmap scan and launches additional specific scans based on open ports found.
+    Main scanner class, performs a scan and launches additional specific modules based on open ports found.
     '''
 
-
-    def __init__(self, params):
+    def __init__(self, ips = []):
         '''
-        Constructor
+        Set scanner, set listener, import scan modules
         '''
         
-    def execute(self):
+        self.Scanners = []
+        
+        for ip in ips:
+            ns = NmapScan(ip)
+            ns.SubscribeObserver(self)
+            self.Scanners.append(ns)
+        
+    def Execute(self):
+        for s in self.Scanners:
+            print("[*] Starting scan against {0}").format(s.getIP())
+            s.Execute()
+    
+    def Quit(self):
+        for s in self.Scanners:
+            print("[-] Stopping scan against {0}").format(s.getIP())
+            s.Quit()
+    
+    def UpdateListener(self, scanResults):
+        '''
+        Received some scanning results, pass to individual scanning modules
+        '''
         pass
+    
+    

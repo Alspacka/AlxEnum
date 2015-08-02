@@ -14,4 +14,6 @@ class BaseModule(object):
         '''
         Constructor
         '''
-        
+    
+    def getPorts(self):
+        NotImplementedError("Class %s doesn't implement getPorts()" % (self.__class__.__name__))

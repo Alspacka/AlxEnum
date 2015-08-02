@@ -1,0 +1,53 @@
+#!/usr/bin/python
+'''
+Created on July 29, 2015
+
+@author: Alexander Van Daele
+'''
+
+from Scanner import MainScanner
+from Scanner import VulnerabilityMatrix
+from Common import CheckRequirements
+from Common import AlxConfiguration
+import signal
+import sys
+
+Scanner = None
+
+def main():
+    banner = """
+****************************************************
+** [Title] AlxEnum 0.1          
+** [Author] Alexander Van Daele - Alspacka             
+** [Disclaimer] Please use responsibly, MIT licensed
+****************************************************
+"""
+
+    print(banner)
+
+    print("[!] Checking requirements...")
+    #CheckRequirements.CheckEnvironment(["nmap","hydra","dirb", "nikto","enum4linux","onesixtyone"])
+    global Scanner
+    #Setup scanner, read config etc
+    Scanner = MainScanner.MainScanner(["127.0.0.1"])
+    print("[+] Starting main scanner...")
+    Scanner.Execute()
+
+def readconfig(signal, frame):
+    #read config file and restart all running stuff
+    print("Rereading configuration and restarting running operations")
+    pass
+    
+def cleanup(signal, frame):
+    #cleanup and exit
+    global Scanner
+    print("Abort detected - cleaning up!")
+    Scanner.Quit()
+    sys.exit(1)
+    
+signal.signal(signal.SIGINT, cleanup)
+signal.signal(signal.SIGHUP, readconfig)
+signal.signal(signal.SIGTERM, cleanup)
+    
+if __name__ == '__main__':
+    main()

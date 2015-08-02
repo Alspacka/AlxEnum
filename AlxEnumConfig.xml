@@ -1,1 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<AlxEnumConfig>
+	<BruteForce>
+		<Superficial>
+			<Usernames_File></Usernames_File>
+			<Passwords_File></Passwords_File>
+			</Superficial>
+		<Thorough>
+			<Usernames_File></Usernames_File>
+			<Passwords_File></Passwords_File>
+		</Thorough>
+	</BruteForce>
+	
+</AlxEnumConfig>
