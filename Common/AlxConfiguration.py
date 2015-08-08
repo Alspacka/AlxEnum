@@ -25,7 +25,7 @@ class AlxConfiguration(object):
         self.DeepBruteforceUSER = "/tmp/test"
         self.DeepBruteforcePASS = "/tmp/test"
         self.ResultDir = "/tmp/resulttest"
-        self.quickScan = "-sT -Pn -p1-500"
+        self.quickScan = "-sT -Pn -p1-500 -sV"
         self.intermediateScan = "-sT -p15001-15003 -T 4"
         self.fullScan = "sT -p30001-30001 -T 4"
         self.udpScan = "-sU -T 5 --top-ports 200"

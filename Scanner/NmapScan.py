@@ -11,6 +11,8 @@ from libnmap.parser import NmapParser
 from time import sleep
 import threading
 from Queue import Queue
+from Common import SystemResult
+from Common import ServiceResult
 
 class NmapScan(BaseScanner):
     '''
@@ -51,7 +53,7 @@ class NmapScan(BaseScanner):
             self.running = True
  
     def Quit(self):
-        print("Quitting scan against {0}...").format(self.getIP())
+        #print("Quitting scan against {0}...").format(self.getIP())
         self.timer.cancel()
         self.running = False
         self.timer = None
@@ -88,7 +90,6 @@ class NmapScan(BaseScanner):
         if self.scanQueue and not self.scanQueue.empty():
             opt = self.scanQueue.get()
             ip = self.getIP()
-            print("Starting Nmap scan against {0} with options {1}").format(ip,opt)
             self.currentScan = NmapProcess(targets=ip, options=opt, safe_mode=False)
             self.currentScan.run_background()
         else:
@@ -96,12 +97,19 @@ class NmapScan(BaseScanner):
     
     def ParseResults(self, nmapscan):
         nmap_report = NmapParser.parse(nmapscan.stdout)
+        hresults = []
         for h in nmap_report.hosts:
             #assemble host
+            #address, os, distance, fingerprint, status
+            print("Assembling host data {0} {1} {2} {3} {4}".format(h.address, h.os_fingerprint, h.distance, h.status, h.mac))
+            hres = SystemResult.SystemResult(h.address,h.os_fingerprint, h.distance, h.status, h.mac)
+            hresults.append(hres)
             for s in h.services:
                 #add services to host
                 if(s.state == "open"):
-                    print("Found service {0} {1} {2}").format(s.service, s.protocol, s.state)
-                    self.UpdateListeners(h)
+                    serv = ServiceResult.ServiceResult(s.port, s.protocol, s.reason, s.service,  s.state, s.banner)
+                    hres.addService(serv)
+                    print("Found service {0} {1} {2} {3}").format(s.service, s.protocol, s.state, s.banner)
+                    self.UpdateListeners(hresults)
     
     

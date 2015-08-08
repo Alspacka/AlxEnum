@@ -37,7 +37,7 @@ class MainScanner(BaseListener):
         
     def Execute(self):
         for s in self.Scanners:
-            print("[*] Starting scan against {0}").format(s.getIP())
+            print("[*] Starting vulnerability scan against {0}").format(s.getIP())
             s.Execute()
     
     def Quit(self):
@@ -50,5 +50,7 @@ class MainScanner(BaseListener):
         Received some scanning results, pass to individual scanning modules
         '''
         print("Received an update from internal scanner")
+        for s in scanResults:
+            print("Incoming scan results for host {0} containing {1} open services".format(s.getAddress(), len(s.getServices())))
     
     

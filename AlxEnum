@@ -16,11 +16,11 @@ Scanner = None
 
 def main():
     banner = """
-****************************************************
-** [Title] AlxEnum 0.1          
-** [Author] Alexander Van Daele - Alspacka             
-** [Disclaimer] Please use responsibly, MIT licensed
-****************************************************
+####################################################
+#### [Title] AlxEnum 0.1          
+#### [Author] Alexander Van Daele - Alspacka             
+#### [Disclaimer] Please use responsibly, MIT licensed
+######################################################
 """
 
     print(banner)
